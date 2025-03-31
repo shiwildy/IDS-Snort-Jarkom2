@@ -9,7 +9,7 @@ fi
 apt update -y; apt upgrade -y
 
 # >> Install required packages
-apt install build-essential cmake libpcap-dev libpcre3-dev zlib1g-dev libluajit-5.1-dev libssl-dev automake libtool flex libhwloc-dev autoconf pkg-config git tshark net-tools -y
+apt install build-essential cmake libpcap-dev libpcre3-dev zlib1g-dev libluajit-5.1-dev libssl-dev automake libtool flex libhwloc-dev libpcre2-dev autoconf pkg-config git tshark net-tools -y
 
 # >> Install libdaq
 git clone https://github.com/snort3/libdaq.git
