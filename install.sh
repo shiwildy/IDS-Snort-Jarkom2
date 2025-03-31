@@ -9,7 +9,8 @@ fi
 apt update -y; apt upgrade -y
 
 # >> Install required packages
-apt install build-essential cmake libpcap-dev libpcre3-dev zlib1g-dev libluajit-5.1-dev libssl-dev automake libtool flex libhwloc-dev libpcre2-dev autoconf pkg-config git tshark net-tools -y
+apt install build-essential cmake libpcap-dev libpcre3-dev zlib1g-dev libluajit-5.1-dev ethtool libssl-dev automake libtool flex liblzma-dev \
+libhwloc-dev libpcre2-dev autoconf pkg-config git tshark net-tools -y
 
 # >> Install libdaq
 git clone https://github.com/snort3/libdaq.git
@@ -31,6 +32,11 @@ make install
 
 # >> Salin Config default
 mkdir -p /etc/snort/rules
-cp -r etc/* /etc/snort/
 cd /root/ && rm -rf snort3
+
+# >> Create snort log directory
+mkdir -p /var/log/snort
+chown -R root:root /var/log/snort
+chmod -R 755 /var/log/snort
+
 
