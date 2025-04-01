@@ -44,7 +44,7 @@ wget -O /etc/snort/snort.lua 'https://raw.githubusercontent.com/shiwildy/IDS-Sno
 wget -O /etc/snort/rules/local.rules 'https://raw.githubusercontent.com/shiwildy/IDS-Snort-Jarkom2/refs/heads/main/local.rules'
 
 # >> Ubah ip network pada rules files
-sed -i "s/cidrnet/$cidrnet/g" /etc/snort/rules/local.rules
+sed -i "s|cidrnet|${cidrnet}|g" /etc/snort/rules/local.rules
 
 # >> Buat services untuk nyalain promiscuos mode di interfaces
 cat > /etc/systemd/system/snort-nic.service << END
