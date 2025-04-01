@@ -3,8 +3,10 @@ ips = {
    variables = default_variables,
    rules = [[
         include /etc/snort/rules/local.rules
-   ]],
-   rate_filter = {
+   ]]
+}
+
+rate_filter = {
     {
         name = 'icmp-limit',
         mode = 'both',
@@ -61,7 +63,6 @@ ips = {
         seconds = 60,
         sid = 10000008
     }
-   }
 }
 
 alert_fast = {
