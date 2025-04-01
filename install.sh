@@ -56,6 +56,8 @@ After=network.target
 Type=oneshot
 ExecStart=/usr/sbin/ip link set dev $intface promisc on
 ExecStart=/usr/sbin/ethtool -K $intface gro off lro off
+ExecStop=/usr/sbin/ip link set dev $intface promisc off
+ExecStop=/usr/sbin/ethtool -K $intface gro off lro on
 TimeoutStartSec=0
 RemainAfterExit=yes
 
