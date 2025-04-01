@@ -8,60 +8,67 @@ ips = {
 
 rate_filter = {
     {
-        name = 'icmp-limit',
-        mode = 'both',
+        gid = 1,
+        sid = 10000002,
         track = 'by_src',
         count = 20,
         seconds = 5,
-        sid = 10000002
+        new_action = 'alert',
+        timeout = 30
     },
     {
-        name = 'synflood-limit',
-        mode = 'both',
+        gid = 1,
+        sid = 10000003,
         track = 'by_src',
         count = 30,
         seconds = 5,
-        sid = 10000003
+        new_action = 'alert',
+        timeout = 30
     },
     {
-        name = 'ddos-limit',
-        mode = 'both',
+        gid = 1,
+        sid = 10000004,
         track = 'by_dst',
         count = 100,
         seconds = 5,
-        sid = 10000004
+        new_action = 'alert',
+        timeout = 30
     },
     {
-        name = 'ssh-brute-limit',
-        mode = 'both',
+        gid = 1,
+        sid = 10000005,
         track = 'by_src',
         count = 10,
         seconds = 60,
-        sid = 10000005
+        new_action = 'alert',
+        timeout = 60
     },
     {
-        name = 'smtp-brute-limit',
-        mode = 'both',
+        gid = 1,
+        sid = 10000006,
         track = 'by_src',
         count = 10,
         seconds = 60,
-        sid = 10000006
+        new_action = 'alert',
+        timeout = 60
     },
     {
-        name = 'imap-brute-limit',
-        mode = 'both',
+        gid = 1,
+        sid = 10000007,
         track = 'by_src',
         count = 10,
         seconds = 60,
-        sid = 10000007
+        new_action = 'alert',
+        timeout = 60
     },
     {
-        name = 'pop3-brute-limit',
-        mode = 'both',
+        gid = 1,
+        sid = 10000008,
         track = 'by_src',
         count = 10,
         seconds = 60,
-        sid = 10000008
+        new_action = 'alert',
+        timeout = 60
     }
 }
 
