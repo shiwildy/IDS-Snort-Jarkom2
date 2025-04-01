@@ -18,9 +18,29 @@ alert tcp any any -> cidrnet 80 (
     metadata:policy security-ips alert;
 )
 
+# >> DoS 443
+alert tcp any any -> cidrnet 443 (
+    msg:"SYN Flood Detected (DoS) 443";
+    flags:S;
+    detection_filter:track by_src, count 50, seconds 5;
+    sid:10000010;
+    rev:1;
+    metadata:policy security-ips alert;
+)
+
 # >> DDoS
 alert tcp any any -> cidrnet 80 (
     msg:"SYN Flood Detected (DDoS)";
+    flags:S;
+    detection_filter:track by_dst, count 100, seconds 5;
+    sid:10000011;
+    rev:1;
+    metadata:policy security-ips alert;
+)
+
+# >> DDoS 443
+alert tcp any any -> cidrnet 443 (
+    msg:"SYN Flood Detected (DDoS) 443";
     flags:S;
     detection_filter:track by_dst, count 100, seconds 5;
     sid:10000011;
