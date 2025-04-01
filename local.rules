@@ -1,18 +1,18 @@
 # >> Rules for ICMP Traffic Detection
-alert icmp any any -> cidrnet any (msg:"ICMP Flood/SPAM Detected"; dsize:0; threshold:type both, track by_src, count 20, seconds 5; sid:10000002; metadata:policy security-ips alert; )
+alert icmp any any -> cidrnet any (msg:"ICMP Flood/SPAM Detected"; dsize:0; sid:10000002; metadata:policy security-ips alert;)
 
 # >> Rules for DOS / SynFlood [ port 80 & 443 ]
-alert tcp any any -> cidrnet 80 (msg:"Possible SYN Flood Attack"; flags:S; threshold:type both, track by_src, count 30, seconds 5; sid:10000003; metadata:policy security-ips alert; )
-alert tcp any any -> cidrnet 443 (msg:"Possible SYN Flood Attack"; flags:S; threshold:type both, track by_src, count 30, seconds 5; sid:10000003; metadata:policy security-ips alert; )
+alert tcp any any -> cidrnet 80 (msg:"Possible SYN Flood Attack"; flags:S; sid:10000003; metadata:policy security-ips alert;)
+alert tcp any any -> cidrnet 443 (msg:"Possible SYN Flood Attack"; flags:S; sid:10000003; metadata:policy security-ips alert;)
 
 # >> Rules for DDOS [ port 80 & 443 ]
-alert tcp any any -> cidrnet 80 (msg:"Possible DDoS SYN Flood"; flags:S; threshold:type both, track by_dst, count 100, seconds 5; sid:10000004; metadata:policy security-ips alert; )
-alert tcp any any -> cidrnet 443 (msg:"Possible DDoS SYN Flood"; flags:S; threshold:type both, track by_dst, count 100, seconds 5; sid:10000004; metadata:policy security-ips alert; )
+alert tcp any any -> cidrnet 80 (msg:"Possible DDoS SYN Flood"; flags:S; sid:10000004; metadata:policy security-ips alert;)
+alert tcp any any -> cidrnet 443 (msg:"Possible DDoS SYN Flood"; flags:S; sid:10000004; metadata:policy security-ips alert;)
 
 # >> Rules for SSH Bruteforce
-alert tcp any any -> cidrnet 22 (msg:"SSH Brute Force Attempt Detected"; flags:S; threshold:type both, track by_src, count 10, seconds 60; sid:10000005; metadata:policy security-ips alert; )
+alert tcp any any -> cidrnet 22 (msg:"SSH Brute Force Attempt Detected"; flags:S; sid:10000005; metadata:policy security-ips alert;)
 
 # >> Rules for Email Bruteforce
-alert tcp any any -> cidrnet 25 (msg:"SMTP Brute Force Attempt"; flags:S; threshold:type both, track by_src, count 10, seconds 60; sid:10000006; metadata:policy security-ips alert; )
-alert tcp any any -> cidrnet 143 (msg:"IMAP Brute Force Attempt"; flags:S; threshold:type both, track by_src, count 10, seconds 60; sid:10000007; metadata:policy security-ips alert; )
-alert tcp any any -> cidrnet 110 (msg:"POP3 Brute Force Attempt"; flags:S; threshold:type both, track by_src, count 10, seconds 60; sid:10000008; metadata:policy security-ips alert; )
+alert tcp any any -> cidrnet 25 (msg:"SMTP Brute Force Attempt"; flags:S; sid:10000006; metadata:policy security-ips alert;)
+alert tcp any any -> cidrnet 143 (msg:"IMAP Brute Force Attempt"; flags:S; sid:10000007; metadata:policy security-ips alert;)
+alert tcp any any -> cidrnet 110 (msg:"POP3 Brute Force Attempt"; flags:S; sid:10000008; metadata:policy security-ips alert;)
