@@ -43,8 +43,9 @@ cd /root/ && rm -rf snort3
 wget -O /etc/snort/snort.lua 'https://raw.githubusercontent.com/shiwildy/IDS-Snort-Jarkom2/refs/heads/main/snort.lua'
 wget -O /etc/snort/rules/local.rules 'https://raw.githubusercontent.com/shiwildy/IDS-Snort-Jarkom2/refs/heads/main/local.rules'
 
-# >> Ubah ip network pada rules files
+# >> Ubah ip network pada rules files dan buat default snort config
 sed -i "s|cidrnet|${cidrnet}|g" /etc/snort/rules/local.rules
+echo "INTERFACES=${cidrnet}" > /etc/default/snort
 
 # >> Buat services untuk nyalain promiscuos mode di interfaces
 cat > /etc/systemd/system/snort-nic.service << END
@@ -66,21 +67,23 @@ WantedBy=default.target
 END
 
 # >> Buat services untuk snort
-cat > /etc/systemd/system/snort.service << END
+cat > /etc/systemd/system/snort.service << 'EOF'
 [Unit]
-Description=Snort IDS Daemon
+Description=Snort 3 IDS Daemon
 After=network.target
 
 [Service]
-ExecStart=/usr/local/snort/bin/snort -i $intface -c /etc/snort/snort.lua -l /etc/snort/log
-ExecReload=/usr/bin/killall snort
+EnvironmentFile=-/etc/default/snort
+ExecStart=/usr/local/snort/bin/snort -i ${INTERFACES} -c /etc/snort/snort.lua -l /etc/snort/log
+ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 User=root
 Group=root
+KillMode=process
 
 [Install]
 WantedBy=multi-user.target
-END
+EOF
 
 # >> Selesai
 clear && echo -e $"Installasi telah selesai
