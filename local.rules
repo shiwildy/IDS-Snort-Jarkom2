@@ -1,17 +1,69 @@
-# ICMP Detection
-alert icmp any any -> cidrnet any (msg:"ICMP Traffic Detected"; sid:10000001; metadata:policy security-ips alert;)
-alert icmp any any -> cidrnet any (msg:"ICMP Flood/SPAM Detected"; dsize:0; detection_filter:track by_src, count 20, seconds 5; sid:10000002; metadata:policy security-ips alert;)
+# >> ICMP Spam
+alert icmp any any -> cidrnet any (
+    msg:"ICMP Flood/SPAM Detected";
+    dsize:0;
+    detection_filter:track by_src, count 5, seconds 5;
+    sid:10000002;
+    rev:1;
+    metadata:policy security-ips alert;
+)
 
-# DoS / DDoS Detection
-alert tcp any any -> cidrnet 80 (msg:"SYN Flood DoS Detected"; flags:S; detection_filter:track by_src, count 30, seconds 5; sid:10000003; metadata:policy security-ips alert;)
-alert tcp any any -> cidrnet 80 (msg:"SYN Flood DDoS Detected"; flags:S; detection_filter:track by_dst, count 100, seconds 5; sid:10000004; metadata:policy security-ips alert;)
-alert tcp any any -> cidrnet 443 (msg:"SYN Flood DoS Detected"; flags:S; detection_filter:track by_src, count 30, seconds 5; sid:10000003; metadata:policy security-ips alert;)
-alert tcp any any -> cidrnet 443 (msg:"SYN Flood DDoS Detected"; flags:S; detection_filter:track by_dst, count 100, seconds 5; sid:10000004; metadata:policy security-ips alert;)
+# >> DoS
+alert tcp any any -> cidrnet 80 (
+    msg:"SYN Flood Detected (DoS)";
+    flags:S;
+    detection_filter:track by_src, count 50, seconds 5;
+    sid:10000010;
+    rev:1;
+    metadata:policy security-ips alert;
+)
 
-# SSH Brute Force
-alert tcp any any -> cidrnet 22 (msg:"SSH Brute Force Attempt"; flags:S; detection_filter:track by_src, count 10, seconds 60; sid:10000005; metadata:policy security-ips alert;)
+# >> DDoS
+alert tcp any any -> cidrnet 80 (
+    msg:"SYN Flood Detected (DDoS)";
+    flags:S;
+    detection_filter:track by_dst, count 100, seconds 5;
+    sid:10000011;
+    rev:1;
+    metadata:policy security-ips alert;
+)
 
-# Email Brute Force
-alert tcp any any -> cidrnet 25 (msg:"SMTP Brute Force Attempt"; flags:S; detection_filter:track by_src, count 10, seconds 60; sid:10000006; metadata:policy security-ips alert;)
-alert tcp any any -> cidrnet 143 (msg:"IMAP Brute Force Attempt"; flags:S; detection_filter:track by_src, count 10, seconds 60; sid:10000007; metadata:policy security-ips alert;)
-alert tcp any any -> cidrnet 110 (msg:"POP3 Brute Force Attempt"; flags:S; detection_filter:track by_src, count 10, seconds 60; sid:10000008; metadata:policy security-ips alert;)
+# >> SSH Bruteforce
+alert tcp any any -> cidrnet 22 (
+    msg:"SSH Brute Force Attempt";
+    flags:S;
+    detection_filter:track by_src, count 5, seconds 60;
+    sid:10000020;
+    rev:1;
+    metadata:policy security-ips alert;
+)
+
+# >> SMTP Bruteforce
+alert tcp any any -> cidrnet 25 (
+    msg:"SMTP Brute Force Attempt";
+    flags:S;
+    detection_filter:track by_src, count 10, seconds 60;
+    sid:10000030;
+    rev:1;
+    metadata:policy security-ips alert;
+)
+
+# >> IMAP Bruteforce
+alert tcp any any -> cidrnet 143 (
+    msg:"IMAP Brute Force Attempt";
+    flags:S;
+    detection_filter:track by_src, count 10, seconds 60;
+    sid:10000031;
+    rev:1;
+    metadata:policy security-ips alert;
+)
+
+# >> POP3 Bruteforce
+alert tcp any any -> cidrnet 110 (
+    msg:"POP3 Brute Force Attempt";
+    flags:S;
+    detection_filter:track by_src, count 10, seconds 60;
+    sid:10000032;
+    rev:1;
+    metadata:policy security-ips alert;
+)
