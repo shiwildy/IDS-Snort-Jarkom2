@@ -13,7 +13,7 @@ apt update -y; apt upgrade -y
 
 # >> Install required packages
 apt install build-essential cmake libpcap-dev libpcre3-dev zlib1g-dev libluajit-5.1-dev ethtool libssl-dev automake libtool flex liblzma-dev \
-libhwloc-dev libpcre2-dev autoconf pkg-config git tshark net-tools screen psmisc libdumbnet-dev -y
+libhwloc-dev libpcre2-dev autoconf pkg-config git tshark net-tools screen psmisc libdumbnet-dev tcpdump -y
 
 # >> Install libdaq
 git clone https://github.com/snort3/libdaq.git
@@ -45,7 +45,7 @@ wget -O /etc/snort/rules/local.rules 'https://raw.githubusercontent.com/shiwildy
 
 # >> Ubah ip network pada rules files dan buat default snort config
 sed -i "s|cidrnet|${cidrnet}|g" /etc/snort/rules/local.rules
-echo "INTERFACES=${cidrnet}" > /etc/default/snort
+echo "INTERFACES=${intface}" > /etc/default/snort
 
 # >> Buat services untuk nyalain promiscuos mode di interfaces
 cat > /etc/systemd/system/snort-nic.service << END
@@ -79,7 +79,6 @@ ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 User=root
 Group=root
-KillMode=process
 
 [Install]
 WantedBy=multi-user.target
