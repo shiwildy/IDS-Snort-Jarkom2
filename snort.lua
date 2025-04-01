@@ -1,5 +1,6 @@
 ips = {
    mode = tap,
+   detection = default_detection,
    variables = default_variables,
    rules = [[
         include /etc/snort/rules/local.rules
